@@ -128,7 +128,7 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
       return
     }
 
-    const profile = getProfile(formInputs);
+    const profile = getProfile(formInputs)
 
     console.log(profile, reasons)
 

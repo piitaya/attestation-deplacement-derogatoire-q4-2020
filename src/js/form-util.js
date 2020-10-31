@@ -2,6 +2,7 @@ import { $, $$, downloadBlob } from './dom-utils'
 import { addSlash, getFormattedDate } from './util'
 import pdfBase from '../certificate.pdf'
 import { generatePdf } from './pdf-util'
+import { clearProfile, saveProfile } from './prefill'
 
 const conditions = {
   '#field-firstname': {
@@ -127,9 +128,17 @@ export function prepareInputs (formInputs, reasonInputs, reasonFieldset, reasonA
       return
     }
 
-    console.log(getProfile(formInputs), reasons)
+    const profile = getProfile(formInputs);
 
-    const pdfBlob = await generatePdf(getProfile(formInputs), reasons, pdfBase)
+    console.log(profile, reasons)
+
+    const pdfBlob = await generatePdf(profile, reasons, pdfBase)
+
+    if ($('#checkbox-save').checked) {
+      saveProfile(profile)
+    } else {
+      clearProfile()
+    }
 
     const creationInstant = new Date()
     const creationDate = creationInstant.toLocaleDateString('fr-CA')
